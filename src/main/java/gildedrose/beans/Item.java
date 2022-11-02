@@ -43,6 +43,9 @@ public class Item {
         }
     }
 
+    /**
+     * update item quality in function of multiple rules
+     */
     public void updateQuality() {
         ItemStates.QualityIsNotNegative.updateQuality(this);
     }

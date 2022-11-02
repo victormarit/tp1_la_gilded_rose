@@ -11,6 +11,9 @@ public class Shop {
         this.items = items;
     }
 
+    /**
+     * For each item, update its quality.
+     */
     public void updateItemsQuality() {
         for (Item item : items) {
             item.updateQuality();
