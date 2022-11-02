@@ -3,7 +3,7 @@ package gildedrose.controllers;
 import gildedrose.beans.Item;
 
 public class Shop {
-    Item[] items;
+    public Item[] items;
 
     public Shop(Item[] items) {
         this.items = items;

@@ -1,6 +1,7 @@
 package gildedrose.beans;
 
 import gildedrose.enums.ItemName;
+import gildedrose.enums.ItemStates;
 
 public class Item {
     private String name;
@@ -43,46 +44,6 @@ public class Item {
     }
 
     public void updateQuality() {
-        //TODO add comment to explain RG before each conditions
-        if (quality < 0) {
-            return;
-        }
-
-        if (!this.name.equals(ItemName.AGED_BRIE.getName())
-            && !this.name.equals(ItemName.BACKSTAGE_PASSES.getName())) {
-            if (!this.name.equals(ItemName.SULFURAS.getName())) {
-                if (this.sellIn <= 0) {
-                    quality = this.quality - (this.name.equals(ItemName.CONJURED.getName()) ? 4 : 2);
-                } else {
-                    this.quality = this.quality - (this.name.equals(ItemName.CONJURED.getName()) ? 2 : 1);
-                }
-            }
-        } else {
-            if (this.quality < 51) {
-                this.quality = this.quality + 1;
-
-                if (this.name.equals( ItemName.BACKSTAGE_PASSES.getName())) {
-                    if (this.sellIn < 11 && (this.quality + 2) < 51) {
-                        this.quality = this.quality + 2;
-                    } else {
-                        this.quality = 50;
-                    }
-
-                    if (this.sellIn < 6 && (this.quality + 3) < 51) {
-                        this.quality = this.quality + 3;
-                    } else {
-                        this.quality = 50;
-                    }
-
-                    if (this.sellIn < 0) {
-                        this.quality = 0;
-                    }
-                }
-            }
-        }
-
-        if (!this.name.equals(ItemName.SULFURAS.getName())) {
-            this.sellIn = this.sellIn - 1;
-        }
+        ItemStates.QualityIsNotNegative.updateQuality(this);
     }
 }
