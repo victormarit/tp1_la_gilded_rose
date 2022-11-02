@@ -2,10 +2,12 @@ package gildedrose.controllers;
 
 import gildedrose.beans.Item;
 
-public class Shop {
-    public Item[] items;
+import java.util.List;
 
-    public Shop(Item[] items) {
+public class Shop {
+    public List<Item> items;
+
+    public Shop(List<Item> items) {
         this.items = items;
     }
 

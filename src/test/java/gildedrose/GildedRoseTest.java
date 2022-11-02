@@ -23,35 +23,31 @@ class GildedRoseTest {
     );
     @Test
     void should_build() {
-        Item[] itemsArray = new Item[items.size()];
-        itemsArray = items.toArray(itemsArray);
-        Shop shop = new Shop(itemsArray);
+        Shop shop = new Shop(items);
         assertEquals(shop.getClass(), Shop.class);
     }
 
     @Test
     void should_update_items_quality() {
-        Item[] itemsArray = new Item[items.size()];
-        itemsArray = items.toArray(itemsArray);
-        Shop shop = new Shop(itemsArray);
+        Shop shop = new Shop(items);
         shop.updateItemsQuality();
-        assertEquals(9, shop.items[0].getSellIn());
-        assertEquals(19, shop.items[0].getQuality());
-        assertEquals(1, shop.items[1].getSellIn());
-        assertEquals(3, shop.items[1].getQuality());
-        assertEquals(4, shop.items[2].getSellIn());
-        assertEquals(6, shop.items[2].getQuality());
-        assertEquals(0, shop.items[3].getSellIn());
-        assertEquals(80, shop.items[3].getQuality());
-        assertEquals(-1, shop.items[4].getSellIn());
-        assertEquals(80, shop.items[4].getQuality());
-        assertEquals(14, shop.items[5].getSellIn());
-        assertEquals(21, shop.items[5].getQuality());
-        assertEquals(9, shop.items[6].getSellIn());
-        assertEquals(50, shop.items[6].getQuality());
-        assertEquals(4, shop.items[7].getSellIn());
-        assertEquals(50, shop.items[7].getQuality());
-        assertEquals(2, shop.items[8].getSellIn());
-        assertEquals(4, shop.items[8].getQuality());
+        assertEquals(9, shop.items.get(0).getSellIn());
+        assertEquals(19, shop.items.get(0).getQuality());
+        assertEquals(1, shop.items.get(1).getSellIn());
+        assertEquals(3, shop.items.get(1).getQuality());
+        assertEquals(4, shop.items.get(2).getSellIn());
+        assertEquals(6, shop.items.get(2).getQuality());
+        assertEquals(0, shop.items.get(3).getSellIn());
+        assertEquals(80, shop.items.get(3).getQuality());
+        assertEquals(-1, shop.items.get(4).getSellIn());
+        assertEquals(80, shop.items.get(4).getQuality());
+        assertEquals(14, shop.items.get(5).getSellIn());
+        assertEquals(21, shop.items.get(5).getQuality());
+        assertEquals(9, shop.items.get(6).getSellIn());
+        assertEquals(50, shop.items.get(6).getQuality());
+        assertEquals(4, shop.items.get(7).getSellIn());
+        assertEquals(50, shop.items.get(7).getQuality());
+        assertEquals(2, shop.items.get(8).getSellIn());
+        assertEquals(4, shop.items.get(8).getQuality());
     }
 }
