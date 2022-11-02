@@ -30,11 +30,11 @@ public class ItemController {
     public static void qualityIsLessThan51AndItemIsAgedBrieOrBackstagePasses(Item item){
         if (item.getName().equals(ItemName.AGED_BRIE.getName()) || item.getName().equals(ItemName.BACKSTAGE_PASSES.getName())) {
             if (item.getSellIn() < 6 && (item.getQuality() + 3) < 51) {
-                item.setQuality(item.getQuality() + 3);
+                item.setQuality(Math.min(item.getQuality() + 3, 50));
             } else if (item.getSellIn() < 11 && (item.getQuality() + 2) < 51) {
-                item.setQuality(item.getQuality() + 2);
-            } else {
-                item.setQuality(50);
+                item.setQuality(Math.min(item.getQuality() + 2, 50));
+            } else if (item.getQuality() < 50) {
+                item.setQuality(item.getQuality() + 1);
             }
 
             if (item.getSellIn() < 0) {
