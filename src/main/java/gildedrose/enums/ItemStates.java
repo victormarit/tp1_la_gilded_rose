@@ -7,7 +7,7 @@ public enum ItemStates {
     QualityIsNotNegative {
         @Override
         public ItemStates nextState() {
-            return ItemIsNotAgedBrieOrBackstagePasses;
+            return ItemIsNotAgedBrieOrBackstagePassesOrSulfuras;
         }
 
         @Override
@@ -15,7 +15,7 @@ public enum ItemStates {
             ItemController.qualityIsNotNegative(item);
         }
     },
-    ItemIsNotAgedBrieOrBackstagePasses {
+    ItemIsNotAgedBrieOrBackstagePassesOrSulfuras {
         @Override
         public ItemStates nextState() {
             return QualityIsLessThan51AndItemIsAgedBrieOrBackstagePasses;
@@ -23,7 +23,7 @@ public enum ItemStates {
 
         @Override
         public void updateQuality(Item item) {
-            ItemController.itemIsNotAgedBrieOrBackstagePasses(item);
+            ItemController.itemIsNotAgedBrieOrBackstagePassesOrSulfuras(item);
         }
     },
     QualityIsLessThan51AndItemIsAgedBrieOrBackstagePasses {

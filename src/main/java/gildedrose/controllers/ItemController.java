@@ -27,16 +27,16 @@ public class ItemController {
      *
      * @param item The item to be updated
      */
-    public static void itemIsNotAgedBrieOrBackstagePasses(Item item) {
+    public static void itemIsNotAgedBrieOrBackstagePassesOrSulfuras(Item item) {
         if (!item.getName().equals(ItemName.AGED_BRIE.getName())
             && !item.getName().equals(ItemName.BACKSTAGE_PASSES.getName()) && !item.getName().equals(ItemName.SULFURAS.getName())) {
             if (item.getSellIn() <= 0) {
-                item.setQuality(item.getQuality() - (item.getName().equals(ItemName.CONJURED.getName()) ? 4 : 2));
+                item.setQuality(item.getQuality() - 2*item.getMultiplier());
             } else {
-                item.setQuality(item.getQuality() - (item.getName().equals(ItemName.CONJURED.getName()) ? 2 : 1));
+                item.setQuality(item.getQuality() - item.getMultiplier());
             }
         }
-        ItemStates.ItemIsNotAgedBrieOrBackstagePasses.nextState().updateQuality(item);
+        ItemStates.ItemIsNotAgedBrieOrBackstagePassesOrSulfuras.nextState().updateQuality(item);
     }
 
 

@@ -8,6 +8,8 @@ public class Item {
     private int sellIn;
     private int quality;
 
+    protected int multiplier = 1;
+
     public Item(String name, int sellIn, int quality) {
         this.name = name;
         this.sellIn = sellIn;
@@ -41,6 +43,10 @@ public class Item {
         } else {
             this.quality = quality;
         }
+    }
+
+    public int getMultiplier() {
+        return this.multiplier;
     }
 
     /**
