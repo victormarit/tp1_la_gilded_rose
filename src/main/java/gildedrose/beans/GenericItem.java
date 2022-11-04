@@ -2,11 +2,10 @@ package gildedrose.beans;
 
 import gildedrose.controllers.ItemController;
 
-public class ConjuredItem extends Item {
+public class GenericItem extends Item {
 
-    public ConjuredItem(String name, int sellIn, int quality) {
+    public GenericItem(String name, int sellIn, int quality) {
         super(name, sellIn, quality);
-        this.multiplier = 2;
     }
 
     @Override

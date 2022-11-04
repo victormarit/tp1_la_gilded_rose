@@ -1,7 +1,6 @@
 package gildedrose;
 
-import gildedrose.beans.ConjuredItem;
-import gildedrose.beans.Item;
+import gildedrose.beans.*;
 import gildedrose.controllers.Shop;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,18 +12,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class GildedRoseTest {
 
     List<Item> items = List.of(
-        new Item("+5 Dexterity Vest", 10, 20),
-        new Item("Aged Brie", 2, 0),
-        new Item("Elixir of the Mongoose", 5, 7),
-        new Item("Sulfuras", 0, 80),
-        new Item("Sulfuras", -1, 80),
-        new Item("Backstage passes", 15, 20),
-        new Item("Backstage passes", 10, 49),
-        new Item("Backstage passes", 5, 49),
+        new GenericItem("+5 Dexterity Vest", 10, 20),
+        new AgingItem("Aged Brie", 2, 0),
+        new GenericItem("Elixir of the Mongoose", 5, 7),
+        new LegendaryItem("Sulfuras", 0, 80),
+        new LegendaryItem("Sulfuras", -1, 80),
+        new EventItem("Backstage passes", 15, 20),
+        new EventItem("Backstage passes", 10, 49),
+        new EventItem("Backstage passes", 5, 49),
         new ConjuredItem("Test", 3, 6),
         new ConjuredItem("Test", 0, 6),
-        new Item("Aged Brie", -1, 49),
-        new Item("Aged Brie", 10, 48)
+        new AgingItem("Aged Brie", -1, 49),
+        new AgingItem("Aged Brie", 10, 48)
     );
 
     Shop shop;
@@ -87,7 +86,7 @@ class GildedRoseTest {
     }
 
     @Test
-    void should_update_regular_item_quality(){
+    void should_update_generic_item_quality(){
         shop.updateItemsQuality();
         assertEquals(9, shop.items.get(0).getSellIn());
         assertEquals(19, shop.items.get(0).getQuality());

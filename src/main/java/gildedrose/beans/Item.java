@@ -1,16 +1,15 @@
 package gildedrose.beans;
 
-import gildedrose.enums.ItemName;
-import gildedrose.enums.ItemStates;
+import gildedrose.interfaces.IItem;
 
-public class Item {
+public abstract class Item implements IItem {
     private String name;
     private int sellIn;
     private int quality;
 
     protected int multiplier = 1;
 
-    public Item(String name, int sellIn, int quality) {
+    protected Item(String name, int sellIn, int quality) {
         this.name = name;
         this.sellIn = sellIn;
         this.quality = quality;
@@ -38,7 +37,7 @@ public class Item {
     }
 
     public void setQuality(int quality) {
-        if (this.name.equals(ItemName.SULFURAS.getName())) {
+        if (this instanceof LegendaryItem) {
             this.quality = 80;
         } else {
             this.quality = quality;
@@ -49,10 +48,5 @@ public class Item {
         return this.multiplier;
     }
 
-    /**
-     * update item quality in function of multiple rules
-     */
-    public void updateQuality() {
-        ItemStates.QualityIsNotNegative.updateQuality(this);
-    }
+
 }
