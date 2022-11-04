@@ -11,20 +11,24 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class GildedRoseTest {
 
     List<Item> items = List.of(
-            new Item("+5 Dexterity Vest", 10, 20),
-            new Item("Aged Brie", 2, 0),
-            new Item("Elixir of the Mongoose", 5, 7),
-            new Item("Sulfuras", 0, 80),
-            new Item("Sulfuras", -1, 80),
-            new Item("Backstage passes", 15, 20),
-            new Item("Backstage passes", 10, 49),
-            new Item("Backstage passes", 5, 49),
-            new Item("Conjured", 3, 6)
+        new Item("+5 Dexterity Vest", 10, 20),
+        new Item("Aged Brie", 2, 0),
+        new Item("Elixir of the Mongoose", 5, 7),
+        new Item("Sulfuras", 0, 80),
+        new Item("Sulfuras", -1, 80),
+        new Item("Backstage passes", 15, 20),
+        new Item("Backstage passes", 10, 49),
+        new Item("Backstage passes", 5, 49),
+        new Item("Conjured", 3, 6),
+        new Item("Conjured", 0, 6),
+        new Item("Aged Brie", -1, 49),
+        new Item("Aged Brie", 10, 48)
     );
+
     @Test
     void should_build() {
         Shop shop = new Shop(items);
-        assertEquals(shop.getClass(), Shop.class);
+        assertEquals(Shop.class, shop.getClass());
     }
 
     @Test
@@ -49,5 +53,11 @@ class GildedRoseTest {
         assertEquals(50, shop.items.get(7).getQuality());
         assertEquals(2, shop.items.get(8).getSellIn());
         assertEquals(4, shop.items.get(8).getQuality());
+        assertEquals(-1, shop.items.get(9).getSellIn());
+        assertEquals(2, shop.items.get(9).getQuality());
+        assertEquals(-2, shop.items.get(10).getSellIn());
+        assertEquals(0, shop.items.get(10).getQuality());
+        assertEquals(9, shop.items.get(11).getSellIn());
+        assertEquals(50, shop.items.get(11).getQuality());
     }
 }
