@@ -56,30 +56,44 @@ class GildedRoseTest {
     }
 
     @Test
-    void should_update_items_quality() {
+    void should_update_items_quality_backstage_passes() {
         shop.updateItemsQuality();
-        assertEquals(9, shop.items.get(0).getSellIn());
-        assertEquals(19, shop.items.get(0).getQuality());
-        assertEquals(1, shop.items.get(1).getSellIn());
-        assertEquals(3, shop.items.get(1).getQuality());
-        assertEquals(4, shop.items.get(2).getSellIn());
-        assertEquals(6, shop.items.get(2).getQuality());
-        assertEquals(0, shop.items.get(3).getSellIn());
-        assertEquals(80, shop.items.get(3).getQuality());
-        assertEquals(-1, shop.items.get(4).getSellIn());
-        assertEquals(80, shop.items.get(4).getQuality());
         assertEquals(14, shop.items.get(5).getSellIn());
         assertEquals(21, shop.items.get(5).getQuality());
         assertEquals(9, shop.items.get(6).getSellIn());
         assertEquals(50, shop.items.get(6).getQuality());
         assertEquals(4, shop.items.get(7).getSellIn());
         assertEquals(50, shop.items.get(7).getQuality());
+    }
+
+    @Test
+    void should_update_items_quality_aged_brie() {
+        shop.updateItemsQuality();
+        assertEquals(1, shop.items.get(1).getSellIn());
+        assertEquals(3, shop.items.get(1).getQuality());
         assertEquals(-2, shop.items.get(10).getSellIn());
         assertEquals(0, shop.items.get(10).getQuality());
         assertEquals(9, shop.items.get(11).getSellIn());
         assertEquals(50, shop.items.get(11).getQuality());
     }
 
+    @Test
+    void should_update_items_quality_sulfuras() {
+        shop.updateItemsQuality();
+        assertEquals(0, shop.items.get(3).getSellIn());
+        assertEquals(80, shop.items.get(3).getQuality());
+        assertEquals(-1, shop.items.get(4).getSellIn());
+        assertEquals(80, shop.items.get(4).getQuality());
+    }
+
+    @Test
+    void should_update_regular_item_quality(){
+        shop.updateItemsQuality();
+        assertEquals(9, shop.items.get(0).getSellIn());
+        assertEquals(19, shop.items.get(0).getQuality());
+        assertEquals(4, shop.items.get(2).getSellIn());
+        assertEquals(6, shop.items.get(2).getQuality());
+    }
 
     @Test
     void should_build_ConjuredItem() {
