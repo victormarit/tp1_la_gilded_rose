@@ -1,9 +1,9 @@
-package gildedrose.beans;
+package gildedrose.inventory;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import gildedrose.controllers.ItemController;
+
 
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
@@ -15,13 +15,22 @@ public class AgingItem extends Item {
         super(name, sellIn, quality, basePrice);
 
     }
-
     @Override
-    public void updateQuality() {
-        boolean isNegative = ItemController.qualityIsNotNegative(this);
-        if (isNegative) {
-            ItemController.qualityIsLessThan51AndItemIsAgedBrieOrBackstagePasses(this);
-            ItemController.decreaseSellIn(this);
+    public void update(){
+        if (this.quality >= 0) {
+            if (this.sellIn < 6 && (this.quality + 3) < 51) {
+                this.quality = Math.min(this.quality + 3, 5);
+            } else if (this.sellIn < 11 && (this.quality + 2) < 51) {
+                this.quality = Math.min(this.quality + 2, 50);
+            } else if (this.quality < 50) {
+                this.quality += 1;
+            }
+
+            if (this.sellIn < 0) {
+                this.quality = 0;
+            }
+
+            this.sellIn -= 1;
         }
     }
 }

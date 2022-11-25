@@ -1,16 +1,15 @@
-package gildedrose.repositories;
+package gildedrose.inventory;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.NamedType;
-import gildedrose.beans.*;
 
 import java.io.File;
 import java.io.FileReader;
 import java.util.Collections;
 import java.util.List;
 
-public class FileRepository extends ItemsRepository {
+public class FileRepository extends ItemsGateway {
 
 
 
@@ -25,7 +24,7 @@ public class FileRepository extends ItemsRepository {
     }
 
     @Override
-    public List<Item> getItems() {
+    public List<Item> getInventory() {
 
         try (FileReader reader = new FileReader("items.json")) {
             return mapper.readValue(reader, new TypeReference<>() {
@@ -37,7 +36,7 @@ public class FileRepository extends ItemsRepository {
     }
 
     @Override
-    public void updateItems(List<Item> items) {
+    public void saveInventory(List<Item> items) {
         try {
             mapper.registerSubtypes(new NamedType(AgingItem.class, "AgingItem"));
             mapper.registerSubtypes(new NamedType(LegendaryItem.class, "LegendaryItem"));
@@ -51,7 +50,7 @@ public class FileRepository extends ItemsRepository {
     }
 
     @Override
-    public Item getItem(String type, int quality) {
+    public Item findItem(String type, int quality) {
         Item itemResult = null;
         try (FileReader reader = new FileReader("items.json")) {
             List<Item> items = mapper.readValue(reader, new TypeReference<>() {

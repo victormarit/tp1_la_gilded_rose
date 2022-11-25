@@ -1,12 +1,9 @@
-package gildedrose.repositories;
+package gildedrose.inventory;
 
-import gildedrose.beans.Item;
-
-import java.io.File;
 import java.util.Collections;
 import java.util.List;
 
-public class InMemoryRepository extends ItemsRepository {
+public class InMemoryRepository extends ItemsGateway {
     private List<Item> items;
 
     private static InMemoryRepository INSTANCE = new InMemoryRepository();
@@ -18,17 +15,17 @@ public class InMemoryRepository extends ItemsRepository {
     }
 
     @Override
-    public List<Item> getItems() {
+    public List<Item> getInventory() {
         return Collections.unmodifiableList(this.items);
     }
 
     @Override
-    public void updateItems(List<Item> items) {
+    public void saveInventory(List<Item> items) {
         this.items = items;
     }
 
     @Override
-    public Item getItem(String type, int quality) {
+    public Item findItem(String type, int quality) {
         return items.stream().filter(item -> item.getClass().getSimpleName().equals(type) && item.getQuality() == quality).findFirst().orElse(null);
     }
 }
