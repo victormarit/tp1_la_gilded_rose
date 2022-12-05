@@ -4,6 +4,7 @@ import gildedrose.inventory.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ShopInteractor implements ShopInputBoundary {
     public final ItemsGateway itemsRepository;
@@ -21,7 +22,7 @@ public class ShopInteractor implements ShopInputBoundary {
     public ShopInteractor() {
         this.itemsRepository = InMemoryItemsRepository.getInstance();
         this.itemsRepository.saveInventory(samples);
-        this.viewBoundary = new ConsoleView();
+        this.viewBoundary = new ShopConsoleView();
         this.balanceRepository = InMemoryBalanceRepository.getInstance();
         this.balanceRepository.saveBalance(50);
     }
@@ -32,15 +33,18 @@ public class ShopInteractor implements ShopInputBoundary {
             item.update();
         }
     }
-    public void sellItem(SellItemRequest request){
-        Item item = this.itemsRepository.findItem(request.getType(), request.getQuality());
+    public boolean sellItem(SellItemRequest request){
+        AtomicBoolean itemSold = new AtomicBoolean(false);
+        Item item = this.itemsRepository.findItem(request.type(), request.quality());
         List<Item> itemsRep = this.itemsRepository.getInventory();
 
         itemsRep.stream().filter(item1 -> item1.equals(item)).findFirst().ifPresent(itemFinal -> {
             itemFinal.update();
             this.balanceRepository.saveBalance(balanceRepository.getBalance() + itemFinal.getValue());
+            itemSold.set(true);
         });
         this.itemsRepository.saveInventory(itemsRep);
+        return itemSold.get();
     }
 
     public void displayBalance() {

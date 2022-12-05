@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Objects;
 
-public class ConsoleController {
+public class ShopConsoleController {
 
     private static final ShopInputBoundary shopBoundary;
 
@@ -15,7 +15,7 @@ public class ConsoleController {
 
     static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-    private ConsoleController() {}
+    private ShopConsoleController() {}
 
     public static void main(String[] args) throws IOException {
         String userEntry;
@@ -37,8 +37,13 @@ public class ConsoleController {
                     quality = reader.readLine();
                 } while (type.isEmpty() || quality.isEmpty());
                 SellItemRequest request = new SellItemRequest(type, Integer.parseInt(quality));
-                shopBoundary.sellItem(request);
-                System.out.println("Item sold");
+                boolean itemSold = shopBoundary.sellItem(request);
+
+                if (itemSold) {
+                    System.out.println("Item sold!");
+                } else {
+                    System.out.println("Item not found!");
+                }
             }
             default -> {
                 System.out.println("Goodbye!");

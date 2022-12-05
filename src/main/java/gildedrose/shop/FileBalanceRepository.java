@@ -7,6 +7,9 @@ import java.io.File;
 import java.io.FileReader;
 
 public class FileBalanceRepository implements BalanceGateway {
+
+    private static final String FILE_NAME = "balance.json";
+
     ObjectMapper mapper = new ObjectMapper();
 
     private static final FileBalanceRepository INSTANCE = new FileBalanceRepository();
@@ -20,7 +23,7 @@ public class FileBalanceRepository implements BalanceGateway {
 
     @Override
     public float getBalance() {
-        try (FileReader reader = new FileReader("balance.json")) {
+        try (FileReader reader = new FileReader(FILE_NAME)) {
             return mapper.readValue(reader, new TypeReference<>() {
             });
         } catch (Exception e) {
@@ -32,7 +35,7 @@ public class FileBalanceRepository implements BalanceGateway {
     @Override
     public void saveBalance(float balance) {
         try {
-            mapper.writeValue(new File("balance.json"), balance);
+            mapper.writeValue(new File(FILE_NAME), balance);
         } catch (Exception e) {
             e.printStackTrace();
         }

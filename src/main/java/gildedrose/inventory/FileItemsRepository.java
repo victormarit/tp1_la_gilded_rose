@@ -11,11 +11,11 @@ import java.util.List;
 
 public class FileItemsRepository implements ItemsGateway {
 
-
+    private static final String FILE_NAME = "items.json";
 
     ObjectMapper mapper = new ObjectMapper();
 
-    private static FileItemsRepository INSTANCE = new FileItemsRepository();
+    private static final FileItemsRepository INSTANCE = new FileItemsRepository();
 
     /** Point d'accès pour l'instance unique du singleton */
     public static FileItemsRepository getInstance()
@@ -26,7 +26,7 @@ public class FileItemsRepository implements ItemsGateway {
     @Override
     public List<Item> getInventory() {
 
-        try (FileReader reader = new FileReader("items.json")) {
+        try (FileReader reader = new FileReader(FILE_NAME)) {
             return mapper.readValue(reader, new TypeReference<>() {
             });
         } catch (Exception e) {
@@ -43,7 +43,7 @@ public class FileItemsRepository implements ItemsGateway {
             mapper.registerSubtypes(new NamedType(ConjuredItem.class, "ConjuredItem"));
             mapper.registerSubtypes(new NamedType(EventItem.class, "EventItem"));
             mapper.registerSubtypes(new NamedType(GenericItem.class, "GenericItem"));
-            mapper.writeValue(new File("items.json"), items);
+            mapper.writeValue(new File(FILE_NAME), items);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -52,7 +52,7 @@ public class FileItemsRepository implements ItemsGateway {
     @Override
     public Item findItem(String type, int quality) {
         Item itemResult = null;
-        try (FileReader reader = new FileReader("items.json")) {
+        try (FileReader reader = new FileReader(FILE_NAME)) {
             List<Item> items = mapper.readValue(reader, new TypeReference<>() {
             });
             itemResult = items.stream().filter(item -> item.getClass().getSimpleName().equals(type) && item.getQuality() == quality).findFirst().orElse(null);
