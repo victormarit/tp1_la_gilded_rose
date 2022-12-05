@@ -3,13 +3,13 @@ package gildedrose.inventory;
 import java.util.Collections;
 import java.util.List;
 
-public class InMemoryRepository extends ItemsGateway {
+public class InMemoryItemsRepository implements ItemsGateway {
     private List<Item> items;
 
-    private static InMemoryRepository INSTANCE = new InMemoryRepository();
+    private static final InMemoryItemsRepository INSTANCE = new InMemoryItemsRepository();
 
     /** Point d'accès pour l'instance unique du singleton */
-    public static InMemoryRepository getInstance()
+    public static InMemoryItemsRepository getInstance()
     {
         return INSTANCE;
     }

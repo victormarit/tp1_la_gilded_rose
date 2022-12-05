@@ -8,8 +8,9 @@ import java.util.List;
 public class ShopInteractor implements ShopInputBoundary {
     public final ItemsGateway itemsRepository;
 
+    public final BalanceGateway balanceRepository;
+
     public final ShopOutputBoundary viewBoundary;
-    private int balance;
 
     List<Item> samples = List.of(
         new AgingItem("Aged Brie", 2, 0, 5),
@@ -18,10 +19,11 @@ public class ShopInteractor implements ShopInputBoundary {
     );
 
     public ShopInteractor() {
-        this.itemsRepository = InMemoryRepository.getInstance();
+        this.itemsRepository = InMemoryItemsRepository.getInstance();
         this.itemsRepository.saveInventory(samples);
         this.viewBoundary = new ConsoleView();
-        balance = 50;
+        this.balanceRepository = InMemoryBalanceRepository.getInstance();
+        this.balanceRepository.saveBalance(50);
     }
 
     public void updateInventory() {
@@ -36,13 +38,13 @@ public class ShopInteractor implements ShopInputBoundary {
 
         itemsRep.stream().filter(item1 -> item1.equals(item)).findFirst().ifPresent(itemFinal -> {
             itemFinal.update();
-            this.balance += itemFinal.getValue();
+            this.balanceRepository.saveBalance(balanceRepository.getBalance() + itemFinal.getValue());
         });
         this.itemsRepository.saveInventory(itemsRep);
     }
 
     public void displayBalance() {
-        viewBoundary.displayBalance(this.balance);
+        viewBoundary.displayBalance(this.balanceRepository.getBalance());
     }
 
     public void displayInventory() {

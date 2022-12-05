@@ -18,7 +18,7 @@ public class ConsoleController {
     private ConsoleController() {}
 
     public static void main(String[] args) throws IOException {
-        String userEntry = "";
+        String userEntry;
         do {
             System.out.println("--- Welcome to Gilded Rose ---");
             userEntry = displayMenu();
@@ -28,8 +28,8 @@ public class ConsoleController {
             case "1" -> shopBoundary.displayInventory();
             case "2" -> shopBoundary.displayBalance();
             case "3" -> {
-                String type = "";
-                String quality = "";
+                String type;
+                String quality;
                 do {
                     System.out.println("Enter item type: ");
                     type = reader.readLine();
@@ -38,6 +38,7 @@ public class ConsoleController {
                 } while (type.isEmpty() || quality.isEmpty());
                 SellItemRequest request = new SellItemRequest(type, Integer.parseInt(quality));
                 shopBoundary.sellItem(request);
+                System.out.println("Item sold");
             }
             default -> {
                 System.out.println("Goodbye!");
@@ -48,7 +49,7 @@ public class ConsoleController {
     }
 
     public static String displayMenu() throws IOException {
-        String userEntry = "";
+        String userEntry;
         System.out.println("1. Display items");
         System.out.println("2. Display balance");
         System.out.println("3. Sell item");

@@ -27,20 +27,20 @@ class GildedRoseTest {
         new AgingItem("Aged Brie", 10, 48, 8)
     );
 
-    FileRepository fileRepository;
+    FileItemsRepository fileItemsRepository;
 
-    InMemoryRepository inMemoryRepository;
+    InMemoryItemsRepository inMemoryItemsRepository;
 
     ShopInteractor shopInteractor;
 
     @BeforeEach
     void setUp() {
         shopInteractor = new ShopInteractor();
-        fileRepository = FileRepository.getInstance();
-        fileRepository.saveInventory(items);
-        inMemoryRepository = InMemoryRepository.getInstance();
-        inMemoryRepository.saveInventory(items);
-        items = fileRepository.getInventory();
+        fileItemsRepository = FileItemsRepository.getInstance();
+        fileItemsRepository.saveInventory(items);
+        inMemoryItemsRepository = InMemoryItemsRepository.getInstance();
+        inMemoryItemsRepository.saveInventory(items);
+        items = fileItemsRepository.getInventory();
     }
 
     @Test
@@ -51,7 +51,7 @@ class GildedRoseTest {
 
     @Test
     void should_get_items() {
-        List<Item> inMemoryItems = inMemoryRepository.getInventory();
+        List<Item> inMemoryItems = inMemoryItemsRepository.getInventory();
         for (int i = 0; i < items.size(); i++) {
             assertEquals(items.get(i).getClass().getName(), inMemoryItems.get(i).getClass().getName());
         }
@@ -59,20 +59,20 @@ class GildedRoseTest {
 
     @Test
     void should_get_item_sellIn() {
-        List<Item> inMemoryItems = inMemoryRepository.getInventory();
+        List<Item> inMemoryItems = inMemoryItemsRepository.getInventory();
         assertEquals(10, inMemoryItems.get(0).getSellIn());
     }
 
     @Test
     void should_get_item_quality() {
-        List<Item> inMemoryItems = inMemoryRepository.getInventory();
+        List<Item> inMemoryItems = inMemoryItemsRepository.getInventory();
         assertEquals(20, inMemoryItems.get(0).getQuality());
     }
 
     @Test
     void should_update_items_quality_backstage_passes() {
         shopInteractor.updateInventory();
-        List<Item> inMemoryItems = inMemoryRepository.getInventory();
+        List<Item> inMemoryItems = inMemoryItemsRepository.getInventory();
         assertEquals(14, inMemoryItems.get(5).getSellIn());
         assertEquals(21, inMemoryItems.get(5).getQuality());
         assertEquals(9, inMemoryItems.get(6).getSellIn());
@@ -84,7 +84,7 @@ class GildedRoseTest {
     @Test
     void should_update_items_quality_aged_brie() {
         shopInteractor.updateInventory();
-        List<Item> inMemoryItems = inMemoryRepository.getInventory();
+        List<Item> inMemoryItems = inMemoryItemsRepository.getInventory();
         assertEquals(1, inMemoryItems.get(1).getSellIn());
         assertEquals(3, inMemoryItems.get(1).getQuality());
         assertEquals(-2, inMemoryItems.get(10).getSellIn());
@@ -96,7 +96,7 @@ class GildedRoseTest {
     @Test
     void should_update_items_quality_sulfuras() {
         shopInteractor.updateInventory();
-        List<Item> inMemoryItems = inMemoryRepository.getInventory();
+        List<Item> inMemoryItems = inMemoryItemsRepository.getInventory();
         assertEquals(0, inMemoryItems.get(3).getSellIn());
         assertEquals(80, inMemoryItems.get(3).getQuality());
         assertEquals(-1, inMemoryItems.get(4).getSellIn());
@@ -106,7 +106,7 @@ class GildedRoseTest {
     @Test
     void should_update_generic_item_quality() {
         shopInteractor.updateInventory();
-        List<Item> inMemoryItems = inMemoryRepository.getInventory();
+        List<Item> inMemoryItems = inMemoryItemsRepository.getInventory();
         assertEquals(9, inMemoryItems.get(0).getSellIn());
         assertEquals(19, inMemoryItems.get(0).getQuality());
         assertEquals(4, inMemoryItems.get(2).getSellIn());
@@ -122,7 +122,7 @@ class GildedRoseTest {
     @Test
     void should_update_quality_conjured_items() {
         shopInteractor.updateInventory();
-        List<Item> inMemoryItems = inMemoryRepository.getInventory();
+        List<Item> inMemoryItems = inMemoryItemsRepository.getInventory();
         assertEquals(2, inMemoryItems.get(8).getSellIn());
         assertEquals(4, inMemoryItems.get(8).getQuality());
         assertEquals(-1, inMemoryItems.get(9).getSellIn());
@@ -132,10 +132,10 @@ class GildedRoseTest {
 
     @Test
     void should_sell_one_item(){
-        int itemSellin = inMemoryRepository.getInventory().get(0).getSellIn();
-        SellItemRequest request = new SellItemRequest(inMemoryRepository.getInventory().get(0).getClass().getSimpleName(), inMemoryRepository.getInventory().get(0).getQuality());
+        int itemSellin = inMemoryItemsRepository.getInventory().get(0).getSellIn();
+        SellItemRequest request = new SellItemRequest(inMemoryItemsRepository.getInventory().get(0).getClass().getSimpleName(), inMemoryItemsRepository.getInventory().get(0).getQuality());
         shopInteractor.sellItem(request);
-        assertEquals(itemSellin-1, inMemoryRepository.getInventory().get(0).getSellIn());
+        assertEquals(itemSellin-1, inMemoryItemsRepository.getInventory().get(0).getSellIn());
     }
 
 }

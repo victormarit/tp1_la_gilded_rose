@@ -13,7 +13,7 @@ public class ConsoleView implements ShopOutputBoundary {
         }
     }
 
-    public void displayBalance(int balance) {
+    public void displayBalance(float balance) {
         System.out.println("---");
         System.out.println("Balance : " + balance);
         System.out.println("---");

@@ -9,16 +9,16 @@ import java.io.FileReader;
 import java.util.Collections;
 import java.util.List;
 
-public class FileRepository extends ItemsGateway {
+public class FileItemsRepository implements ItemsGateway {
 
 
 
     ObjectMapper mapper = new ObjectMapper();
 
-    private static FileRepository INSTANCE = new FileRepository();
+    private static FileItemsRepository INSTANCE = new FileItemsRepository();
 
     /** Point d'accès pour l'instance unique du singleton */
-    public static FileRepository getInstance()
+    public static FileItemsRepository getInstance()
     {
         return INSTANCE;
     }
