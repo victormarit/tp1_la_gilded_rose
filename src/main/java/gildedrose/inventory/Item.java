@@ -22,9 +22,9 @@ public abstract class Item {
 
     protected int sellIn;
     protected int quality;
-    protected int basePrice;
+    protected float basePrice;
 
-    protected Item(@JsonProperty("name") String name, @JsonProperty("sellIn") int sellIn, @JsonProperty("quality") int quality, @JsonProperty("basePrice") int basePrice) {
+    protected Item(@JsonProperty("name") String name, @JsonProperty("sellIn") int sellIn, @JsonProperty("quality") int quality, @JsonProperty("basePrice") float basePrice) {
         this.name = name;
         this.sellIn = sellIn;
         this.quality = quality;
@@ -48,7 +48,7 @@ public abstract class Item {
     }
 
     @JsonIgnore
-    public int getValue() {
+    public float getValue() {
         return this.basePrice;
     }
 

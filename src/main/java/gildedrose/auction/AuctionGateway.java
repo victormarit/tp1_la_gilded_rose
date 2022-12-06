@@ -8,4 +8,8 @@ public interface AuctionGateway {
     Auction getAuction(String type, int quality);
 
     void saveAuctions(List<Auction> auction);
+
+    void removeAuction(Auction auction);
+
+    void addAuction(Auction auction);
 }

@@ -11,11 +11,11 @@ public class Auction {
 
     public Auction(Item item) {
         this.item = item;
-        this.currentPrice = Float.intBitsToFloat(item.getValue())/2;
+        this.currentPrice = item.getValue()/2;
     }
 
     public void bid(float price) {
-        if (price >= currentPrice + (10*currentPrice/100) && nbAuction < 3) {
+        if (price >= (currentPrice + (10*currentPrice/100)) && nbAuction < 3) {
             currentPrice = price;
             nbAuction++;
         }
@@ -27,5 +27,13 @@ public class Auction {
 
     public Item getItem() {
         return item;
+    }
+
+    public float getCurrentPrice() {
+        return currentPrice;
+    }
+
+    public int getNbAuction(){
+        return nbAuction;
     }
 }

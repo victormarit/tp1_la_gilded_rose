@@ -1,6 +1,8 @@
 package gildedrose;
 
 import gildedrose.inventory.*;
+import gildedrose.shop.BalanceGateway;
+import gildedrose.shop.InMemoryBalanceRepository;
 import gildedrose.shop.SellItemRequest;
 import gildedrose.shop.ShopInteractor;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,21 +33,25 @@ class ShopTest {
 
     InMemoryItemsRepository inMemoryItemsRepository;
 
+    BalanceGateway balanceRepository;
+
     ShopInteractor shopInteractor;
 
     @BeforeEach
     void setUp() {
-        shopInteractor = new ShopInteractor();
         fileItemsRepository = FileItemsRepository.getInstance();
         fileItemsRepository.saveInventory(items);
         inMemoryItemsRepository = InMemoryItemsRepository.getInstance();
         inMemoryItemsRepository.saveInventory(items);
+        balanceRepository = new InMemoryBalanceRepository();
+        balanceRepository.saveBalance(50);
+        shopInteractor = new ShopInteractor(inMemoryItemsRepository, balanceRepository);
         items = fileItemsRepository.getInventory();
     }
 
     @Test
     void should_build() {
-        ShopInteractor shopInteractorLocal = new ShopInteractor();
+        ShopInteractor shopInteractorLocal = new ShopInteractor(inMemoryItemsRepository, balanceRepository);
         assertEquals(ShopInteractor.class, shopInteractorLocal.getClass());
     }
 

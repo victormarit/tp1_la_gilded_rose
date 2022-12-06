@@ -13,18 +13,12 @@ public class ShopInteractor implements ShopInputBoundary {
 
     public final ShopOutputBoundary viewBoundary;
 
-    List<Item> samples = List.of(
-        new AgingItem("Aged Brie", 2, 0, 5),
-        new EventItem("Backstage passes to a TAFKAL80ETC concert", 15, 20, 8),
-        new ConjuredItem("Conjured Mana Cake", 3, 6, 10)
-    );
 
-    public ShopInteractor() {
-        this.itemsRepository = InMemoryItemsRepository.getInstance();
-        this.itemsRepository.saveInventory(samples);
+
+    public ShopInteractor(ItemsGateway itemsRepository, BalanceGateway balanceRepository) {
+        this.itemsRepository = itemsRepository;
         this.viewBoundary = new ShopConsoleView();
-        this.balanceRepository = InMemoryBalanceRepository.getInstance();
-        this.balanceRepository.saveBalance(50);
+        this.balanceRepository = balanceRepository;
     }
 
     public void updateInventory() {

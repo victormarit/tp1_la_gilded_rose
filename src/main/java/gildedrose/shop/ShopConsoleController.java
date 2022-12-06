@@ -1,16 +1,33 @@
 package gildedrose.shop;
 
+import gildedrose.inventory.*;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.Objects;
 
 public class ShopConsoleController {
 
     private static final ShopInputBoundary shopBoundary;
 
+    private static final ItemsGateway itemsRepository;
+
+    private static final BalanceGateway balanceRepository;
+
+    static List<Item> samples = List.of(
+        new AgingItem("Aged Brie", 2, 0, 5),
+        new EventItem("Backstage passes to a TAFKAL80ETC concert", 15, 20, 8),
+        new ConjuredItem("Conjured Mana Cake", 3, 6, 10)
+    );
+
     static {
-        shopBoundary = new ShopInteractor();
+        itemsRepository = InMemoryItemsRepository.getInstance();
+        balanceRepository = InMemoryBalanceRepository.getInstance();
+        itemsRepository.saveInventory(samples);
+        balanceRepository.saveBalance(50);
+        shopBoundary = new ShopInteractor(itemsRepository, balanceRepository);
     }
 
     static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

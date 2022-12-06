@@ -31,4 +31,14 @@ public class InMemoryAuctionRepository implements AuctionGateway {
     public void saveAuctions(List<Auction> auctions) {
         this.auctions = auctions;
     }
+
+    @Override
+    public void removeAuction(Auction auction) {
+        auctions.remove(auction);
+    }
+
+    @Override
+    public void addAuction(Auction auction) {
+        auctions.add(auction);
+    }
 }

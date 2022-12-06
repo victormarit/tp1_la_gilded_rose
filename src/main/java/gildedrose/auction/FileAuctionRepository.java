@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.FileReader;
+import java.util.Collections;
 import java.util.List;
 
 public class FileAuctionRepository implements AuctionGateway {
@@ -27,7 +28,7 @@ public class FileAuctionRepository implements AuctionGateway {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
@@ -49,6 +50,30 @@ public class FileAuctionRepository implements AuctionGateway {
     public void saveAuctions(List<Auction> auction) {
         try {
             mapper.writeValue(new java.io.File(FILE_NAME), auction);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void removeAuction(Auction auction) {
+        try (FileReader reader = new FileReader(FILE_NAME)) {
+            List<Auction> auctions = mapper.readValue(reader, new TypeReference<>() {
+            });
+            auctions.remove(auction);
+            mapper.writeValue(new java.io.File(FILE_NAME), auctions);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void addAuction(Auction auction) {
+        try (FileReader reader = new FileReader(FILE_NAME)) {
+            List<Auction> auctions = mapper.readValue(reader, new TypeReference<>() {
+            });
+            auctions.add(auction);
+            mapper.writeValue(new java.io.File(FILE_NAME), auctions);
         } catch (Exception e) {
             e.printStackTrace();
         }
