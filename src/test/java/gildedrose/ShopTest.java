@@ -1,8 +1,8 @@
 package gildedrose;
 
+import gildedrose.inventory.*;
 import gildedrose.shop.SellItemRequest;
 import gildedrose.shop.ShopInteractor;
-import gildedrose.inventory.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +10,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class GildedRoseTest {
+class ShopTest {
 
     List<Item> items = List.of(
         new GenericItem("+5 Dexterity Vest", 10, 20, 10),
@@ -50,23 +50,22 @@ class GildedRoseTest {
     }
 
     @Test
-    void should_get_items() {
+    void should_update_quality_conjured_items() {
+        shopInteractor.updateInventory();
         List<Item> inMemoryItems = inMemoryItemsRepository.getInventory();
-        for (int i = 0; i < items.size(); i++) {
-            assertEquals(items.get(i).getClass().getName(), inMemoryItems.get(i).getClass().getName());
-        }
+        assertEquals(2, inMemoryItems.get(8).getSellIn());
+        assertEquals(4, inMemoryItems.get(8).getQuality());
+        assertEquals(-1, inMemoryItems.get(9).getSellIn());
+        assertEquals(2, inMemoryItems.get(9).getQuality());
     }
 
-    @Test
-    void should_get_item_sellIn() {
-        List<Item> inMemoryItems = inMemoryItemsRepository.getInventory();
-        assertEquals(10, inMemoryItems.get(0).getSellIn());
-    }
 
     @Test
-    void should_get_item_quality() {
-        List<Item> inMemoryItems = inMemoryItemsRepository.getInventory();
-        assertEquals(20, inMemoryItems.get(0).getQuality());
+    void should_sell_one_item(){
+        int itemSellin = inMemoryItemsRepository.getInventory().get(0).getSellIn();
+        SellItemRequest request = new SellItemRequest(inMemoryItemsRepository.getInventory().get(0).getClass().getSimpleName(), inMemoryItemsRepository.getInventory().get(0).getQuality());
+        shopInteractor.sellItem(request);
+        assertEquals(itemSellin-1, inMemoryItemsRepository.getInventory().get(0).getSellIn());
     }
 
     @Test
@@ -118,24 +117,4 @@ class GildedRoseTest {
         ConjuredItem conjuredItem = new ConjuredItem("Conjured", 50, 50, 10);
         assertEquals(ConjuredItem.class, conjuredItem.getClass());
     }
-
-    @Test
-    void should_update_quality_conjured_items() {
-        shopInteractor.updateInventory();
-        List<Item> inMemoryItems = inMemoryItemsRepository.getInventory();
-        assertEquals(2, inMemoryItems.get(8).getSellIn());
-        assertEquals(4, inMemoryItems.get(8).getQuality());
-        assertEquals(-1, inMemoryItems.get(9).getSellIn());
-        assertEquals(2, inMemoryItems.get(9).getQuality());
-    }
-
-
-    @Test
-    void should_sell_one_item(){
-        int itemSellin = inMemoryItemsRepository.getInventory().get(0).getSellIn();
-        SellItemRequest request = new SellItemRequest(inMemoryItemsRepository.getInventory().get(0).getClass().getSimpleName(), inMemoryItemsRepository.getInventory().get(0).getQuality());
-        shopInteractor.sellItem(request);
-        assertEquals(itemSellin-1, inMemoryItemsRepository.getInventory().get(0).getSellIn());
-    }
-
 }
