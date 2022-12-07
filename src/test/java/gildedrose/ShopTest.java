@@ -1,6 +1,7 @@
 package gildedrose;
 
 import gildedrose.inventory.*;
+import gildedrose.notifier.DiscordNotifier;
 import gildedrose.shop.BalanceGateway;
 import gildedrose.shop.InMemoryBalanceRepository;
 import gildedrose.shop.SellItemRequest;
@@ -174,6 +175,17 @@ class ShopTest {
         assertTrue(inMemoryItems.get(12) instanceof UnsellableItem);
         if(inMemoryItems.get(12) instanceof UnsellableItem){
             assertEquals(shopBalance+100, this.balanceRepository.getBalance());
+        }
+    }
+
+    @Test
+    void should_sell_an_item(){
+        SellItemRequest sellItemRequest = new SellItemRequest("EventItem", 20);
+        shopInteractor.sellItem(sellItemRequest);
+        List<Item> inMemoryItems = inMemoryItemsRepository.getInventory();
+        if (inMemoryItems.get(5) instanceof SellableItem sellableItem) {
+            assertEquals(14, sellableItem.getSellIn());
+            assertEquals(204, DiscordNotifier.statusCode);
         }
     }
 }

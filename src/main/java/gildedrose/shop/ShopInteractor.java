@@ -1,7 +1,9 @@
 package gildedrose.shop;
 
 import gildedrose.inventory.*;
+import gildedrose.notifier.DiscordNotifier;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -41,6 +43,11 @@ public class ShopInteractor implements ShopInputBoundary {
                 sellableItem.update();
                 this.balanceRepository.saveBalance(balanceRepository.getBalance() + sellableItem.getValue());
                 itemSold.set(true);
+                try {
+                    DiscordNotifier.notify("Item sold: " + itemFinal.getName() + " for " + sellableItem.getValue() + " gold");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
         this.itemsRepository.saveInventory(itemsRep);
