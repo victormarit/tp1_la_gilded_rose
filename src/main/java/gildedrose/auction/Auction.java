@@ -1,15 +1,15 @@
 package gildedrose.auction;
 
-import gildedrose.inventory.Item;
+import gildedrose.inventory.SellableItem;
 
 public class Auction {
-    private final Item item;
+    private final SellableItem item;
 
     private int nbAuction = 0;
 
     private float currentPrice;
 
-    public Auction(Item item) {
+    public Auction(SellableItem item) {
         this.item = item;
         this.currentPrice = item.getValue()/2;
     }
@@ -25,7 +25,7 @@ public class Auction {
         return nbAuction == 3;
     }
 
-    public Item getItem() {
+    public SellableItem getItem() {
         return item;
     }
 

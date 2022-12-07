@@ -43,9 +43,11 @@ class AuctionTest {
 
     @Test
     void should_increase_value_by_10_percent_without_interactor(){
-        Auction auction = new Auction(items.get(0));
-        auction.bid((items.get(0).getValue()/2)+(10*(items.get(0).getValue()/2)/100));
-        assertEquals((items.get(0).getValue()/2)+(10*(items.get(0).getValue()/2)/100), auction.getCurrentPrice());
+        if (items.get(0) instanceof SellableItem sellableItem) {
+            Auction auction = new Auction(sellableItem);
+            auction.bid((sellableItem.getValue() / 2) + (10 * (sellableItem.getValue() / 2) / 100));
+            assertEquals((sellableItem.getValue() / 2) + (10 * (sellableItem.getValue() / 2) / 100), auction.getCurrentPrice());
+        }
     }
 
     @Test
@@ -55,14 +57,19 @@ class AuctionTest {
         Auction auction = auctionRepository.getAuction(items.get(0).type, items.get(0).getQuality());
         AuctionBidRequest request = new AuctionBidRequest(items.get(0).type, items.get(0).getQuality(), auction.getCurrentPrice() + (10*auction.getCurrentPrice()/100));
         auctionBoundary.bid(request);
-        assertEquals(items.get(0).getValue()/2+(10*(items.get(0).getValue()/2)/100), auction.getCurrentPrice());
+        if (items.get(0) instanceof SellableItem sellableItem) {
+            assertEquals(sellableItem.getValue() / 2 + (10 * (sellableItem.getValue() / 2) / 100), auction.getCurrentPrice());
+        }
     }
 
     @Test
     void shouldnt_take_bid_without_interactor(){
-        Auction auction = new Auction(items.get(0));
-        auction.bid((items.get(0).getValue()/2)+(5*(items.get(0).getValue()/2)/100));
-        assertEquals(0, auction.getNbAuction());
+        if(items.get(0) instanceof SellableItem sellableItem){
+            Auction auction = new Auction(sellableItem);
+            auction.bid((sellableItem.getValue()/2)+(5*(sellableItem.getValue()/2)/100));
+            assertEquals(0, auction.getNbAuction());
+        }
+
     }
 
     @Test
@@ -72,7 +79,9 @@ class AuctionTest {
         Auction auction = auctionRepository.getAuction(items.get(0).type, items.get(0).getQuality());
         AuctionBidRequest request = new AuctionBidRequest(items.get(0).type, items.get(0).getQuality(), auction.getCurrentPrice() + (5*auction.getCurrentPrice()/100));
         auctionBoundary.bid(request);
-        assertNotEquals((items.get(0).getValue()/2) * 1.1, auction.getCurrentPrice());
+        if (items.get(0) instanceof SellableItem sellableItem) {
+            assertNotEquals((sellableItem.getValue() / 2) * 1.1, auction.getCurrentPrice());
+        }
     }
 
     @Test

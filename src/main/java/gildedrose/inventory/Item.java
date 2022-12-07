@@ -13,22 +13,18 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
     @JsonSubTypes.Type(value= AgingItem.class, name = "AgingItem"),
     @JsonSubTypes.Type(value= ConjuredItem.class, name = "ConjuredItem"),
     @JsonSubTypes.Type(value= EventItem.class, name = "EventItem"),
-    @JsonSubTypes.Type(value= LegendaryItem.class, name = "LegendaryItem")
+    @JsonSubTypes.Type(value= LegendaryItem.class, name = "LegendaryItem"),
+    @JsonSubTypes.Type(value= RelicItem.class, name = "RelicItem")
 })
 public abstract class Item {
     protected String name;
 
     public String type;
-
-    protected int sellIn;
     protected int quality;
-    protected float basePrice;
 
-    protected Item(@JsonProperty("name") String name, @JsonProperty("sellIn") int sellIn, @JsonProperty("quality") int quality, @JsonProperty("basePrice") float basePrice) {
+    protected Item(@JsonProperty("name") String name, @JsonProperty("quality") int quality) {
         this.name = name;
-        this.sellIn = sellIn;
         this.quality = quality;
-        this.basePrice = basePrice;
         this.type = this.getClass().getSimpleName();
     }
 
@@ -39,17 +35,8 @@ public abstract class Item {
         return name;
     }
 
-    public int getSellIn() {
-        return sellIn;
-    }
-
     public int getQuality() {
         return quality;
-    }
-
-    @JsonIgnore
-    public float getValue() {
-        return this.basePrice;
     }
 
 
@@ -57,11 +44,11 @@ public abstract class Item {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Item item)) return false;
-        return sellIn == item.sellIn && quality == item.quality && basePrice == item.basePrice && Objects.equals(name, item.name) && type.equals(item.type);
+        return quality == item.quality && Objects.equals(name, item.name) && type.equals(item.type);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, type, sellIn, quality, basePrice);
+        return Objects.hash(name, type, quality);
     }
 }

@@ -4,15 +4,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
+import java.util.List;
+
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
     include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonTypeName("GenericItem")
-public class GenericItem extends Item {
+public class GenericItem extends AttributedItem {
 
     public GenericItem(@JsonProperty("name") String name, @JsonProperty("sellIn") int sellIn,
                        @JsonProperty("quality") int quality, @JsonProperty("basePrice") int basePrice) {
         super(name, sellIn, quality, basePrice);
+        this.attributes = List.of(
+            new AttackAttribute(1),
+            new DefenseAttribute(1)
+        );
     }
 
     @Override

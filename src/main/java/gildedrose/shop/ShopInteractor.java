@@ -24,7 +24,11 @@ public class ShopInteractor implements ShopInputBoundary {
     public void updateInventory() {
         List<Item> items = itemsRepository.getInventory();
         for (Item item : items) {
-            item.update();
+            if (item instanceof RelicItem) {
+                this.balanceRepository.saveBalance(this.balanceRepository.getBalance() + 100);
+            } else {
+                item.update();
+            }
         }
     }
     public boolean sellItem(SellItemRequest request){
@@ -33,9 +37,11 @@ public class ShopInteractor implements ShopInputBoundary {
         List<Item> itemsRep = this.itemsRepository.getInventory();
 
         itemsRep.stream().filter(item1 -> item1.equals(item)).findFirst().ifPresent(itemFinal -> {
-            itemFinal.update();
-            this.balanceRepository.saveBalance(balanceRepository.getBalance() + itemFinal.getValue());
-            itemSold.set(true);
+            if (itemFinal instanceof SellableItem sellableItem) {
+                sellableItem.update();
+                this.balanceRepository.saveBalance(balanceRepository.getBalance() + sellableItem.getValue());
+                itemSold.set(true);
+            }
         });
         this.itemsRepository.saveInventory(itemsRep);
         return itemSold.get();
@@ -48,7 +54,11 @@ public class ShopInteractor implements ShopInputBoundary {
     public void displayInventory() {
         List<ItemResponse> itemResponses = new ArrayList<>();
         for (Item item : this.itemsRepository.getInventory()) {
-            itemResponses.add(new ItemResponse(item.getName(), item.getSellIn(), item.getQuality(), item.getValue()));
+            if (item instanceof SellableItem sellableItem) {
+                itemResponses.add(new ItemResponse(item.getName(), sellableItem.getSellIn(), item.getQuality(), sellableItem.getValue()));
+            } else {
+                itemResponses.add(new ItemResponse(item.getName(), item.getQuality()));
+            }
         }
         viewBoundary.displayInventory(itemResponses);
     }

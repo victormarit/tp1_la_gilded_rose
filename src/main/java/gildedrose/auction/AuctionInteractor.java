@@ -2,6 +2,7 @@ package gildedrose.auction;
 
 import gildedrose.inventory.Item;
 import gildedrose.inventory.ItemsGateway;
+import gildedrose.inventory.SellableItem;
 import gildedrose.shop.BalanceGateway;
 
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class AuctionInteractor implements AuctionInputBoundary {
 
     @Override
     public void createAuction(AuctionRequest request) {
-        Item item = itemsRepository.findItem(request.type(), request.quality());
+        SellableItem item = (SellableItem) itemsRepository.findItem(request.type(), request.quality());
         Auction auction = new Auction(item);
         auctionRepository.addAuction(auction);
     }

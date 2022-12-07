@@ -50,7 +50,9 @@ class InventoryTest {
     @Test
     void should_get_item_sellIn() {
         List<Item> inMemoryItems = inMemoryRepository.getInventory();
-        assertEquals(10, inMemoryItems.get(0).getSellIn());
+        if (inMemoryItems.get(0) instanceof GenericItem genericItem) {
+            assertEquals(10, genericItem.getSellIn());
+        }
     }
 
     @Test
@@ -63,6 +65,29 @@ class InventoryTest {
     void should_build_ConjuredItem() {
         ConjuredItem conjuredItem = new ConjuredItem("Conjured", 50, 50, 10);
         assertEquals(ConjuredItem.class, conjuredItem.getClass());
+    }
+
+    @Test
+    void conjured_item_should_have_attributes_attack_minus_2_and_defense_plus_2() {
+        if (items.get(8) instanceof AttributedItem attributedItem) {
+            assertEquals(-2, attributedItem.getAttributes().stream().filter(attribute -> attribute.type.equals("AttackAttribute")).findFirst().get().getEffect());
+            assertEquals(2, attributedItem.getAttributes().stream().filter(attribute -> attribute.type.equals("DefenseAttribute")).findFirst().get().getEffect());
+        }
+    }
+
+    @Test
+    void generic_item_should_have_defense_plus_1_and_attack_plus_1(){
+        if (items.get(0) instanceof AttributedItem attributedItem) {
+            assertEquals(1, attributedItem.getAttributes().stream().filter(attribute -> attribute.type.equals("AttackAttribute")).findFirst().get().getEffect());
+            assertEquals(1, attributedItem.getAttributes().stream().filter(attribute -> attribute.type.equals("DefenseAttribute")).findFirst().get().getEffect());
+        }
+    }
+
+    @Test
+    void legendary_item_should_have_attack_plus_4(){
+        if (items.get(3) instanceof AttributedItem attributedItem) {
+            assertEquals(4, attributedItem.getAttributes().stream().filter(attribute -> attribute.type.equals("AttackAttribute")).findFirst().get().getEffect());
+        }
     }
 
 }
