@@ -11,7 +11,7 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 @JsonSubTypes({
     @JsonSubTypes.Type(value= RelicItem.class, name = "RelicItem")
 })
-public abstract class UnsellableItem extends Item {
+public abstract non-sealed class UnsellableItem extends Item {
     protected UnsellableItem(@JsonProperty("name") String name, @JsonProperty("quality") int quality) {
         super(name, quality);
     }

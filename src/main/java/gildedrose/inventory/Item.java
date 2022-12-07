@@ -16,7 +16,7 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
     @JsonSubTypes.Type(value= LegendaryItem.class, name = "LegendaryItem"),
     @JsonSubTypes.Type(value= RelicItem.class, name = "RelicItem")
 })
-public abstract class Item {
+public abstract sealed class Item permits SellableItem, UnsellableItem {
     protected String name;
 
     public String type;

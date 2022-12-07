@@ -18,7 +18,7 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
     @JsonSubTypes.Type(value= LegendaryItem.class, name = "LegendaryItem"),
     @JsonSubTypes.Type(value= EventItem.class, name = "EventItem")
 })
-public abstract class SellableItem extends Item {
+public abstract non-sealed class SellableItem extends Item {
     protected float basePrice;
 
     protected int sellIn;
