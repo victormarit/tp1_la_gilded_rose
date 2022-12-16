@@ -11,8 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ShopTest {
 
@@ -187,5 +186,14 @@ class ShopTest {
             assertEquals(14, sellableItem.getSellIn());
             assertEquals(204, DiscordNotifier.statusCode);
         }
+    }
+
+    @Test
+    void relic_item_should_be_updatable(){
+        assertFalse(items.get(12) instanceof Updatable);
+        float balanceBeforeUpdate = balanceRepository.getBalance();
+        shopInteractor.updateInventory();
+        assertEquals(balanceBeforeUpdate + 100, balanceRepository.getBalance());
+
     }
 }

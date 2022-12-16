@@ -28,8 +28,6 @@ public abstract sealed class Item permits SellableItem, UnsellableItem {
         this.type = this.getClass().getSimpleName();
     }
 
-    public abstract void update();
-
 
     public String getName() {
         return name;

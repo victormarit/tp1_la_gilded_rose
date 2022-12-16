@@ -16,7 +16,6 @@ public class ShopInteractor implements ShopInputBoundary {
     public final ShopOutputBoundary viewBoundary;
 
 
-
     public ShopInteractor(ItemsGateway itemsRepository, BalanceGateway balanceRepository) {
         this.itemsRepository = itemsRepository;
         this.viewBoundary = new ShopConsoleView();
@@ -28,19 +27,22 @@ public class ShopInteractor implements ShopInputBoundary {
         for (Item item : items) {
             if (item instanceof RelicItem) {
                 this.balanceRepository.saveBalance(this.balanceRepository.getBalance() + 100);
-            } else {
-                item.update();
+            } else if (item instanceof Updatable updatableItem) {
+                updatableItem.update();
             }
         }
     }
-    public boolean sellItem(SellItemRequest request){
+
+    public boolean sellItem(SellItemRequest request) {
         AtomicBoolean itemSold = new AtomicBoolean(false);
         Item item = this.itemsRepository.findItem(request.type(), request.quality());
         List<Item> itemsRep = this.itemsRepository.getInventory();
 
         itemsRep.stream().filter(item1 -> item1.equals(item)).findFirst().ifPresent(itemFinal -> {
             if (itemFinal instanceof SellableItem sellableItem) {
-                sellableItem.update();
+                if (sellableItem instanceof Updatable updatableItem) {
+                    updatableItem.update();
+                }
                 this.balanceRepository.saveBalance(balanceRepository.getBalance() + sellableItem.getValue());
                 itemSold.set(true);
                 try {

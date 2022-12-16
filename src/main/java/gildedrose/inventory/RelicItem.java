@@ -13,7 +13,4 @@ public class RelicItem extends UnsellableItem {
         super(name, quality);
     }
 
-    @Override
-    public void update() {
-    }
 }

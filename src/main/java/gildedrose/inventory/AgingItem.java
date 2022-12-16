@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     use = JsonTypeInfo.Id.NAME,
     include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonTypeName("AgingItem")
-public class AgingItem extends SellableItem {
+public class AgingItem extends SellableItem implements Updatable {
 
     public AgingItem(@JsonProperty("name") String name, @JsonProperty("sellIn") int sellIn, @JsonProperty("quality") int quality, @JsonProperty("basePrice") int basePrice) {
         super(name, sellIn, quality, basePrice);

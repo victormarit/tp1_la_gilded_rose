@@ -19,8 +19,4 @@ public class LegendaryItem extends AttributedItem {
             new AttackAttribute(4)
         );
     }
-
-    @Override
-    public void update(){}
-
 }

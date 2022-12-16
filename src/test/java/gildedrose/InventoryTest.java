@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class InventoryTest {
 
@@ -87,6 +87,21 @@ class InventoryTest {
     void legendary_item_should_have_attack_plus_4(){
         if (items.get(3) instanceof AttributedItem attributedItem) {
             assertEquals(4, attributedItem.getAttributes().stream().filter(attribute -> attribute.type.equals("AttackAttribute")).findFirst().get().getEffect());
+        }
+    }
+
+    @Test
+    void legendary_item_should_not_be_updatable(){
+        assertFalse(items.get(3) instanceof Updatable);
+    }
+
+
+    @Test
+    void item_different_from_legendary_and_relic_should_be_updatable(){
+        for (Item item : items) {
+            if (!(item instanceof LegendaryItem) && !(item instanceof RelicItem)) {
+                assertTrue(item instanceof Updatable);
+            }
         }
     }
 

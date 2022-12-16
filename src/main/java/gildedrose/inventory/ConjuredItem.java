@@ -10,7 +10,7 @@ import java.util.List;
     use = JsonTypeInfo.Id.NAME,
     include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonTypeName("ConjuredItem")
-public class ConjuredItem extends AttributedItem {
+public class ConjuredItem extends AttributedItem implements Updatable {
 
     public ConjuredItem(@JsonProperty("name") String name, @JsonProperty("sellIn") int sellIn, @JsonProperty("quality") int quality, @JsonProperty("basePrice") int basePrice) {
         super(name, sellIn, quality, basePrice);

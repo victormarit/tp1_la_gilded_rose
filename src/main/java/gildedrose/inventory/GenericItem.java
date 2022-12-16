@@ -10,7 +10,7 @@ import java.util.List;
     use = JsonTypeInfo.Id.NAME,
     include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonTypeName("GenericItem")
-public class GenericItem extends AttributedItem {
+public class GenericItem extends AttributedItem implements Updatable {
 
     public GenericItem(@JsonProperty("name") String name, @JsonProperty("sellIn") int sellIn,
                        @JsonProperty("quality") int quality, @JsonProperty("basePrice") int basePrice) {
