@@ -31,6 +31,7 @@ public class ShopInteractor implements ShopInputBoundary {
                 updatableItem.update();
             }
         }
+        this.itemsRepository.saveInventory(items);
     }
 
     public boolean sellItem(SellItemRequest request) {

@@ -1,6 +1,5 @@
-package gildedrose;
+package gildedrose.auction;
 
-import gildedrose.auction.*;
 import gildedrose.inventory.*;
 import gildedrose.inventory.InMemoryItemsRepository;
 import gildedrose.shop.BalanceGateway;
@@ -13,7 +12,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AuctionTest {
+class InMemoryAuctionTest {
     List<Item> items = List.of(
         new GenericItem("+5 Dexterity Vest", 10, 20, 10)
     );

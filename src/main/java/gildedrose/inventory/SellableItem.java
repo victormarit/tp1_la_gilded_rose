@@ -29,7 +29,7 @@ public abstract non-sealed class SellableItem extends Item {
         this.sellIn = sellIn;
     }
 
-    @JsonIgnore
+    @JsonProperty("basePrice")
     public float getValue() {
         return this.basePrice;
     }

@@ -28,6 +28,12 @@ public class InMemoryAuctionRepository implements AuctionGateway {
     }
 
     @Override
+    public void saveAuction(Auction auction) {
+        auctions.stream().filter(auction1 -> auction1.getItem().type.equals(auction.getItem().type) && auction1.getItem().getQuality() == auction.getItem().getQuality()).findFirst().ifPresent(auctions::remove);
+        auctions.add(auction);
+    }
+
+    @Override
     public void saveAuctions(List<Auction> auctions) {
         this.auctions = auctions;
     }

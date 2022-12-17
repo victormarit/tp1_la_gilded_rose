@@ -1,11 +1,7 @@
-package gildedrose;
+package gildedrose.shop;
 
 import gildedrose.inventory.*;
 import gildedrose.notifier.DiscordNotifier;
-import gildedrose.shop.BalanceGateway;
-import gildedrose.shop.InMemoryBalanceRepository;
-import gildedrose.shop.SellItemRequest;
-import gildedrose.shop.ShopInteractor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +9,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ShopTest {
+class InMemoryShopTest {
 
     List<Item> items = List.of(
         new GenericItem("+5 Dexterity Vest", 10, 20, 10),
@@ -31,8 +27,6 @@ class ShopTest {
         new RelicItem("Relic", 48)
     );
 
-    FileItemsRepository fileItemsRepository;
-
     InMemoryItemsRepository inMemoryItemsRepository;
 
     BalanceGateway balanceRepository;
@@ -41,14 +35,11 @@ class ShopTest {
 
     @BeforeEach
     void setUp() {
-        fileItemsRepository = FileItemsRepository.getInstance();
-        fileItemsRepository.saveInventory(items);
         inMemoryItemsRepository = InMemoryItemsRepository.getInstance();
         inMemoryItemsRepository.saveInventory(items);
         balanceRepository = new InMemoryBalanceRepository();
         balanceRepository.saveBalance(50);
         shopInteractor = new ShopInteractor(inMemoryItemsRepository, balanceRepository);
-        items = fileItemsRepository.getInventory();
     }
 
     @Test

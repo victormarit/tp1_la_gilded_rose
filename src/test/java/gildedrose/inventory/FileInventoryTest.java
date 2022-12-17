@@ -1,6 +1,5 @@
-package gildedrose;
+package gildedrose.inventory;
 
-import gildedrose.inventory.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -8,7 +7,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class InventoryTest {
+class FileInventoryTest {
 
     List<Item> items = List.of(
         new GenericItem("+5 Dexterity Vest", 10, 20, 10),
@@ -27,21 +26,17 @@ class InventoryTest {
 
     FileItemsRepository fileRepository;
 
-    InMemoryItemsRepository inMemoryRepository;
-
     @BeforeEach
     void setUp() {
         fileRepository = FileItemsRepository.getInstance();
         fileRepository.saveInventory(items);
-        inMemoryRepository = InMemoryItemsRepository.getInstance();
-        inMemoryRepository.saveInventory(items);
         items = fileRepository.getInventory();
     }
 
 
     @Test
     void should_get_items() {
-        List<Item> inMemoryItems = inMemoryRepository.getInventory();
+        List<Item> inMemoryItems = fileRepository.getInventory();
         for (int i = 0; i < items.size(); i++) {
             assertEquals(items.get(i).getClass().getName(), inMemoryItems.get(i).getClass().getName());
         }
@@ -49,7 +44,7 @@ class InventoryTest {
 
     @Test
     void should_get_item_sellIn() {
-        List<Item> inMemoryItems = inMemoryRepository.getInventory();
+        List<Item> inMemoryItems = fileRepository.getInventory();
         if (inMemoryItems.get(0) instanceof GenericItem genericItem) {
             assertEquals(10, genericItem.getSellIn());
         }
@@ -57,7 +52,7 @@ class InventoryTest {
 
     @Test
     void should_get_item_quality() {
-        List<Item> inMemoryItems = inMemoryRepository.getInventory();
+        List<Item> inMemoryItems = fileRepository.getInventory();
         assertEquals(20, inMemoryItems.get(0).getQuality());
     }
 

@@ -33,6 +33,8 @@ public class AuctionInteractor implements AuctionInputBoundary {
         if (auction.isWon()) {
             balanceRepository.saveBalance(balanceRepository.getBalance() + request.bid());
             auctionRepository.removeAuction(auction);
+        } else {
+            auctionRepository.saveAuction(auction);
         }
     }
 

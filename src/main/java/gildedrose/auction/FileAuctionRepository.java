@@ -15,8 +15,7 @@ public class FileAuctionRepository implements AuctionGateway {
 
     private static final FileAuctionRepository INSTANCE = new FileAuctionRepository();
 
-    public static FileAuctionRepository getInstance()
-    {
+    public static FileAuctionRepository getInstance() {
         return INSTANCE;
     }
 
@@ -44,6 +43,21 @@ public class FileAuctionRepository implements AuctionGateway {
             auctionResult = null;
         }
         return auctionResult;
+    }
+
+    @Override
+    public void saveAuction(Auction auction) {
+        try (FileReader reader = new FileReader(FILE_NAME)) {
+            List<Auction> auctions = mapper.readValue(reader, new TypeReference<>() {
+            });
+
+            auctions.stream().filter(auction1 -> auction1.getItem().type.equals(auction.getItem().type) && auction1.getItem().getQuality() == auction.getItem().getQuality()).findFirst().ifPresent(auctions::remove);
+            auctions.add(auction);
+            mapper.writeValue(new java.io.File(FILE_NAME), auctions);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override

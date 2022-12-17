@@ -1,5 +1,7 @@
 package gildedrose.auction;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import gildedrose.inventory.SellableItem;
 
 public class Auction {
@@ -9,7 +11,7 @@ public class Auction {
 
     private float currentPrice;
 
-    public Auction(SellableItem item) {
+    public Auction(@JsonProperty("item") SellableItem item) {
         this.item = item;
         this.currentPrice = item.getValue()/2;
     }
@@ -21,6 +23,7 @@ public class Auction {
         }
     }
 
+    @JsonIgnore
     public boolean isWon() {
         return nbAuction == 3;
     }
